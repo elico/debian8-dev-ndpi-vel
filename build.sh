@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -e 
+set -x
 
 cd /build
 rm -rf ./nDPI
@@ -35,12 +36,13 @@ make -j9 && \
 make install && \
 make modules_install && \
 echo $?
-mkdir -p /build/destdir/lib/xtables/ && \
-cp /lib/xtables/libxt_NDPI.so /build/destdir/lib/xtables/ && \
+#  /lib/xtables/  ==> /usr/lib/x86_64-linux-gnu/xtables/ 
+mkdir -p /build/destdir/usr/lib/x86_64-linux-gnu/xtables/ && \
+cp /usr/lib/x86_64-linux-gnu/xtables/libxt_NDPI.so /build/destdir/usr/lib/x86_64-linux-gnu/xtables/ && \
 mkdir -p /build/destdir/lib/modules/$KERNEL_VERSION/extra/ && \
 cp /build/nDPI/ndpi-netfilter/src/xt_ndpi.ko /build/destdir/lib/modules/$KERNEL_VERSION/extra/xt_ndpi.ko && \
 cp /build/nDPI/ndpi-netfilter/src/xt_ndpi.ko /build/destdir/lib/modules/$KERNEL_VERSION/extra/xt_ndpi.ko-non-stripped && \
-cd /build/destdir/lib/xtables/ && \
+cd /build/destdir/usr/lib/x86_64-linux-gnu/xtables/ && \
 ln -s libxt_NDPI.so libxt_ndpi.so && \
 echo $?
 
@@ -50,3 +52,4 @@ strip --strip-debug /build/destdir/lib/modules/$KERNEL_VERSION/extra/xt_ndpi.ko
 #patch -p0 < /build/ipt-makefile.patch && \
 #patch -p0 < /build/src-makefile.patch && \
 
+set +x
