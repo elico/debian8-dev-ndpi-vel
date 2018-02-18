@@ -32,7 +32,7 @@ ls
 sed -i -e 's/-DOPENDPI_NETFILTER_MODULE/$(shell pkg-config --cflags xtables)/g' ndpi-netfilter/ipt/Makefile && \
 sed -i -e 's@MODULES_DIR := /lib/modules/$(shell uname -r)@MODULES_DIR := /lib/modules/$(shell ls /lib/modules/)@g' ndpi-netfilter/src/Makefile && \
 sed -i -e 's/depmod -a/depmod -a $(shell ls \/lib\/modules\/)/g' ndpi-netfilter/src/Makefile && \
-( cd src/lib ; make ndpi_network_list.c.inc ) && \
+make -C /build/nDPI/src/lib/ ndpi_network_list.c.inc && \
 cd ndpi-netfilter/ && \
 make -j9 && \
 make install && \
