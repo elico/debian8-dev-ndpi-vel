@@ -50,6 +50,9 @@ echo $?
 
 strip --strip-debug /build/destdir/lib/modules/$KERNEL_VERSION/extra/xt_ndpi.ko
 
+chmod a+w /build/destdir -R
+chmod a+w /build/nDPI -R
+
 #modprobe xt_ndpi && lsmod|grep ndpi
 #patch -p0 < /build/ipt-makefile.patch && \
 #patch -p0 < /build/src-makefile.patch && \
